@@ -40,7 +40,7 @@ public class PlaylistController {
         return ResponseEntity.of(
                 playlistRepository.findById(id).map(list -> {
                   list.setName(playlist.getName());
-                  list.setDescripcion(playlist.getDescripcion());
+                  list.setDescription(playlist.getDescription());
                   list.setSongs(playlist.getSongs());
                   playlistRepository.save(list);
                   return list;
