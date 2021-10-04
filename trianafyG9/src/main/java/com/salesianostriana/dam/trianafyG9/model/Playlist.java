@@ -14,19 +14,19 @@ import java.util.List;
 @Data@NoArgsConstructor@AllArgsConstructor
 public class Playlist {
 
-    private Long is;
+    private Long id;
 
     private String name;
 
     @Lob
-    private String descripcion;
+    private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Song> songs;
 
-    public Playlist(String name, String descripcion, List<Song> songs) {
+    public Playlist(String name, String description, List<Song> songs) {
         this.name = name;
-        this.descripcion = descripcion;
+        this.description = description;
         this.songs = songs;
     }
 }
