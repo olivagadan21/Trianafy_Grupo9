@@ -22,7 +22,7 @@ public class Playlist {
     private String descripcion;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Song> songs = new ArrayList<>();
+    private List<Song> songs;
 
     public Playlist(String name, String descripcion, List<Song> songs) {
         this.name = name;
