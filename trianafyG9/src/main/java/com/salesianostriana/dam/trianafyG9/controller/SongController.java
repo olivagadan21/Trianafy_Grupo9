@@ -3,11 +3,9 @@ package com.salesianostriana.dam.trianafyG9.controller;
 import com.salesianostriana.dam.trianafyG9.model.Song;
 import com.salesianostriana.dam.trianafyG9.model.SongRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,8 +25,38 @@ public class SongController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Song> findOne (@PathVariable Long id) {
-        return
+    public ResponseEntity<Song> findOneSong (@PathVariable Long id) {
+        
+
+        return ResponseEntity
+                .ok()
+                .body(songRepository.findById(id).orElse(null));
+    }
+
+    @PostMapping("{id}")
+    public ResponseEntity<Song> createSong (@RequestBody Song newSong) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(songRepository.save(newSong));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Song> edit (@RequestBody Song s, @PathVariable Long id) {
+        return ResponseEntity.of(
+                songRepository.findById(id).map(s -> {
+                    s.setAlbum(s.getAlbum());
+                    s.setArtist(s.getArtist());
+                    s.setTitle(s.getTitle());
+                    s.setArtist(s.getArtist());
+                    return s;
+                })
+        );
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteSong(@PathVariable Long id) {
+        songRepository.deleteAllById(id);
+        return ResponseEntity.noContent().build();
     }
 
 
