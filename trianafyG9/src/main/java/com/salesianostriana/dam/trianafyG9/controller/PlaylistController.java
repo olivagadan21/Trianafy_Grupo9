@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.trianafyG9.controller;
 
+import com.salesianostriana.dam.trianafyG9.dto.CreatePlaylistDto;
 import com.salesianostriana.dam.trianafyG9.dto.GetPlaylistDto;
 import com.salesianostriana.dam.trianafyG9.dto.PlaylistDtoConverter;
 import com.salesianostriana.dam.trianafyG9.model.Playlist;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class PlaylistController {
 
     private final PlaylistRepository playlistRepository;
+    private final SongRepository songRepository;
     private final PlaylistDtoConverter dtoConverter;
 
 
@@ -37,13 +39,25 @@ public class PlaylistController {
     //Listar uno solo por id
     @GetMapping("/{id}")
     public ResponseEntity<Playlist> findOne(@PathVariable("id") Long id){
+
         return ResponseEntity.of(playlistRepository.findById(id));
     }
 
     //Crear nueva playlist
     @PostMapping("")
-    public ResponseEntity<Playlist> create(@RequestBody Playlist playlist){
-        return ResponseEntity.status(201).body(playlistRepository.save(playlist));
+    public ResponseEntity<Playlist> create(@RequestBody CreatePlaylistDto dto){
+
+        if (dto.getSongId() == null){
+            return ResponseEntity.badRequest().build();
+        }
+
+        Playlist nuevo = dtoConverter.createPlaylistDtoToPlaylist(dto);
+
+        Song song = songRepository.findById(dto.getSongId()).orElse(null);
+
+        nuevo.setSongs(song);
+
+        return ResponseEntity.status(201).body(playlistRepository.save(nuevo));
     }
 
     //Modificar Playlist
