@@ -8,8 +8,9 @@ public class SongDtoConverter {
 
     public Song createSongDtoToSong (CreateSongDto s) {
         return new Song(
-                s.getAlbum(),
+
                 s.getTitle(),
+                s.getAlbum(),
                 s.getYear()
         );
     }
@@ -17,9 +18,9 @@ public class SongDtoConverter {
     public GetSongDto songToGetSongDto (Song s) {
 
         GetSongDto result = new GetSongDto();
-
-        result.setAlbum(s.getAlbum());
         result.setTitle(s.getTitle());
+        result.setAlbum(s.getAlbum());
+        result.setYear(s.getYear());
         result.setArtist(s.getArtist().getName());
 
         return result;

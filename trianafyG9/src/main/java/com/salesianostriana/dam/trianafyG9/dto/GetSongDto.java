@@ -12,6 +12,7 @@ public class GetSongDto {
 
     private String title;
     private String album;
+    private String year;
     private String artist;
 
 }

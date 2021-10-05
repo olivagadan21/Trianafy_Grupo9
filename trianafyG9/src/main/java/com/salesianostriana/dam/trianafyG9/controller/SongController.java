@@ -3,6 +3,8 @@ package com.salesianostriana.dam.trianafyG9.controller;
 import com.salesianostriana.dam.trianafyG9.dto.CreateSongDto;
 import com.salesianostriana.dam.trianafyG9.dto.GetSongDto;
 import com.salesianostriana.dam.trianafyG9.dto.SongDtoConverter;
+import com.salesianostriana.dam.trianafyG9.model.Artist;
+import com.salesianostriana.dam.trianafyG9.model.ArtistRepository;
 import com.salesianostriana.dam.trianafyG9.model.Song;
 import com.salesianostriana.dam.trianafyG9.model.SongRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,22 +22,19 @@ public class SongController {
 
     private final SongRepository songRepository;
     private final SongDtoConverter dtoConverter;
-
+    private final ArtistRepository artistRepository;
 
     @GetMapping("")
     public ResponseEntity<List<GetSongDto>> findAll() {
 
         List<Song> data = songRepository.findAll();
 
-        if (data.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        } else {
+
             List<GetSongDto> result =
                     data.stream()
                             .map(dtoConverter::songToGetSongDto)
                             .collect(Collectors.toList());
             return ResponseEntity.ok().body(result);
-        }
     }
 
     @GetMapping("{id}")
@@ -45,12 +44,19 @@ public class SongController {
         return ResponseEntity
                 .ok()
                 .body(songRepository.findById(id).orElse(null));
+
     }
 
     @PostMapping("")
     public ResponseEntity<Song> createSong (@RequestBody CreateSongDto newSong) {
 
         Song nuevo = dtoConverter.createSongDtoToSong(newSong);
+
+        Artist artist = artistRepository.findById(newSong.getArtistId()).orElse(null);
+
+        nuevo.setArtist(artist);
+
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(songRepository.save(nuevo));
@@ -60,14 +66,16 @@ public class SongController {
     public ResponseEntity<Song> edit (@RequestBody Song s, @PathVariable Long id) {
         return ResponseEntity.of(
                 songRepository.findById(id).map(m -> {
-                    s.setAlbum(s.getAlbum());
-                    s.setArtist(s.getArtist());
-                    s.setTitle(s.getTitle());
-                    s.setArtist(s.getArtist());
-                    return s;
+                    m.setTitle(s.getTitle());
+                    m.setAlbum(s.getAlbum());
+                    m.setYear(s.getYear());
+                    songRepository.save(m);
+                    return m;
                 })
         );
-    }
+
+
+        }
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteSong(@PathVariable Long id) {
