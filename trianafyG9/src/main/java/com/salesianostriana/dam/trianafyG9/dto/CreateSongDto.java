@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 public class CreateSongDto {
 
     private String title;
-    private Long artistId;
     private String album;
     private String year;
+    private Long artistId;
 
 }
