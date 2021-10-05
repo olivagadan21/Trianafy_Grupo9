@@ -1,5 +1,7 @@
 package com.salesianostriana.dam.trianafyG9.controller;
 
+import com.salesianostriana.dam.trianafyG9.dto.GetSongDto;
+import com.salesianostriana.dam.trianafyG9.dto.SongDtoConverter;
 import com.salesianostriana.dam.trianafyG9.model.Song;
 import com.salesianostriana.dam.trianafyG9.model.SongRepository;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,13 +18,23 @@ import java.util.List;
 public class SongController {
 
     private final SongRepository songRepository;
+    private final SongDtoConverter dtoConverter;
+
 
     @GetMapping("")
-    public ResponseEntity<List<Song>> findAll() {
+    public ResponseEntity<List<GetSongDto>> findAll() {
 
-        return ResponseEntity
-                .ok()
-                .body(songRepository.findAll());
+        List<Song> data = songRepository.findAll();
+
+        if (data.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            List<GetSongDto> result =
+                    data.stream()
+                            .map(dtoConverter::songToGetSongDto)
+                            .collect(Collectors.toList());
+            return ResponseEntity.ok().body(result);
+        }
     }
 
     @GetMapping("{id}")
@@ -35,9 +48,11 @@ public class SongController {
 
     @PostMapping("{id}")
     public ResponseEntity<Song> createSong (@RequestBody Song newSong) {
+
+        Song nuevo = dtoConverter.createSongDtoToSong(nuevo);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(songRepository.save(newSong));
+                .body(songRepository.save(nuevo));
     }
 
     @PutMapping("{id}")
@@ -55,7 +70,7 @@ public class SongController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteSong(@PathVariable Long id) {
-        songRepository.deleteAllById(id);
+        songRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
