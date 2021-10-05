@@ -47,7 +47,7 @@ public class SongController {
                 .body(songRepository.findById(id).orElse(null));
     }
 
-    @PostMapping("{id}")
+    @PostMapping("")
     public ResponseEntity<Song> createSong (@RequestBody CreateSongDto newSong) {
 
         Song nuevo = dtoConverter.createSongDtoToSong(newSong);
