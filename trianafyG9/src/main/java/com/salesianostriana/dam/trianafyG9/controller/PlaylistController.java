@@ -5,6 +5,8 @@ import com.salesianostriana.dam.trianafyG9.dto.GetPlaylistDto;
 import com.salesianostriana.dam.trianafyG9.dto.PlaylistDtoConverter;
 import com.salesianostriana.dam.trianafyG9.model.Playlist;
 import com.salesianostriana.dam.trianafyG9.model.PlaylistRepository;
+import com.salesianostriana.dam.trianafyG9.model.Song;
+import com.salesianostriana.dam.trianafyG9.model.SongRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +57,7 @@ public class PlaylistController {
 
         Song song = songRepository.findById(dto.getSongId()).orElse(null);
 
-        nuevo.setSongs(song);
+        nuevo.setSongs((List<Song>) song);
 
         return ResponseEntity.status(201).body(playlistRepository.save(nuevo));
     }
