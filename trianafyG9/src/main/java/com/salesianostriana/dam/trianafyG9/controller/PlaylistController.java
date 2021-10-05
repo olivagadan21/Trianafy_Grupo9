@@ -1,5 +1,7 @@
 package com.salesianostriana.dam.trianafyG9.controller;
 
+import com.salesianostriana.dam.trianafyG9.dto.GetPlaylistDto;
+import com.salesianostriana.dam.trianafyG9.dto.PlaylistDtoConverter;
 import com.salesianostriana.dam.trianafyG9.model.Playlist;
 import com.salesianostriana.dam.trianafyG9.model.PlaylistRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/lists")
@@ -14,11 +17,20 @@ import java.util.List;
 public class PlaylistController {
 
     private final PlaylistRepository playlistRepository;
+    private final PlaylistDtoConverter dtoConverter;
+
 
     //Listar todos
     @GetMapping("")
-    public ResponseEntity<List<Playlist>> findAll(){
-        return ResponseEntity.ok().body(playlistRepository.findAll());
+    public ResponseEntity<List<GetPlaylistDto>> findAll(){
+        List<Playlist> data = playlistRepository.findAll();
+
+        if (data.isEmpty()){
+            return ResponseEntity.notFound().build();
+        } else {
+            List<GetPlaylistDto> result = data.stream().map(dtoConverter::playlistToGetPlaylistDto).collect(Collectors.toList());
+            return ResponseEntity.ok().body(result);
+        }
 
     }
 

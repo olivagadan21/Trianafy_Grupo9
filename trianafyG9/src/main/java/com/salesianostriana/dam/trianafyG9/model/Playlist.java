@@ -14,6 +14,7 @@ import java.util.List;
 @Data@NoArgsConstructor@AllArgsConstructor
 public class Playlist {
 
+    @Id
     private Long id;
 
     private String name;
