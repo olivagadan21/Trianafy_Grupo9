@@ -25,7 +25,7 @@ public class PlaylistController {
 
 
     //Listar todos
-    @GetMapping("")
+    @GetMapping("/")
     public ResponseEntity<List<GetPlaylistDto>> findAll(){
         List<Playlist> data = playlistRepository.findAll();
 
@@ -46,7 +46,7 @@ public class PlaylistController {
     }
 
     //Crear nueva playlist
-    @PostMapping("")
+    @PostMapping("/")
     public ResponseEntity<Playlist> create(@RequestBody CreatePlaylistDto dto){
 
         if (dto.getSongId() == null){
@@ -55,9 +55,9 @@ public class PlaylistController {
 
         Playlist nuevo = dtoConverter.createPlaylistDtoToPlaylist(dto);
 
-        Song song = songRepository.findById(dto.getSongId()).orElse(null);
+        List<Song> song = songRepository.findById(dto.getSongId()).orElse(null);
 
-        nuevo.setSongs((List<Song>) song);
+        nuevo.setSongs(song);
 
         return ResponseEntity.status(201).body(playlistRepository.save(nuevo));
     }
@@ -69,7 +69,6 @@ public class PlaylistController {
                 playlistRepository.findById(id).map(list -> {
                   list.setName(playlist.getName());
                   list.setDescription(playlist.getDescription());
-                  list.setSongs(playlist.getSongs());
                   playlistRepository.save(list);
                   return list;
                 })

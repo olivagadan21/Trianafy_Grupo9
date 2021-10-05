@@ -16,13 +16,11 @@ public class PlaylistDtoConverter {
 
     public GetPlaylistDto playlistToGetPlaylistDto(Playlist p){
 
-        GetPlaylistDto result = new GetPlaylistDto();
-
-        result.setName(p.getName());
-        result.setDescription(p.getDescription());
-        result.setSong(p.getSongs().toString());
-
-        return result;
+        return GetPlaylistDto
+                .builder().
+                name(p.getName())
+                .description(p.getDescription())
+                .build();
 
     }
 
