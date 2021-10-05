@@ -2,6 +2,8 @@ package com.salesianostriana.dam.trianafyG9.controller;
 
 import com.salesianostriana.dam.trianafyG9.model.Artist;
 import com.salesianostriana.dam.trianafyG9.model.ArtistRepository;
+import com.salesianostriana.dam.trianafyG9.model.Song;
+import com.salesianostriana.dam.trianafyG9.model.SongRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import java.util.List;
 public class ArtistController {
 
     private final ArtistRepository artistRepository;
+    private final SongRepository songRepository;
 
     @GetMapping("")
     public ResponseEntity<List<Artist>> findAll(){
