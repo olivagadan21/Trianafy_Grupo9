@@ -55,7 +55,7 @@ public class PlaylistController {
 
         Playlist nuevo = dtoConverter.createPlaylistDtoToPlaylist(dto);
 
-        List<Song> song = songRepository.findById(dto.getSongId()).orElse(null);
+        List<Song> song = (List<Song>) songRepository.findById(dto.getSongId()).orElse(null);
 
         nuevo.setSongs(song);
 
