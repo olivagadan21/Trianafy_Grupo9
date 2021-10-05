@@ -20,7 +20,7 @@ public class PlaylistDtoConverter {
 
         result.setName(p.getName());
         result.setDescription(p.getDescription());
-        result.setSong(p.getSongs().getTitle());
+        result.setSong(p.getSongs().toString());
 
         return result;
 
