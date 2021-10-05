@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class PlaylistController {
 
     private final PlaylistRepository playlistRepository;
+    private final SongRepository songRepository;
     private final PlaylistDtoConverter dtoConverter;
 
 
