@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,26 +30,38 @@ public class SongController {
 
         List<Song> data = songRepository.findAll();
 
+        if (data.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
 
             List<GetSongDto> result =
                     data.stream()
                             .map(dtoConverter::songToGetSongDto)
                             .collect(Collectors.toList());
             return ResponseEntity.ok().body(result);
+        }
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Song> findOneSong (@PathVariable Long id) {
-        
+        Optional<Song> data = songRepository.findById(id);
 
-        return ResponseEntity
-                .ok()
-                .body(songRepository.findById(id).orElse(null));
+        if (data.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity
+                    .ok()
+                    .body(songRepository.findById(id).orElse(null));
+        }
 
     }
 
     @PostMapping("")
     public ResponseEntity<Song> createSong (@RequestBody CreateSongDto newSong) {
+
+        if (newSong.getArtistId() == null) {
+            return ResponseEntity.badRequest().build();
+        }
 
         Song nuevo = dtoConverter.createSongDtoToSong(newSong);
 
@@ -64,6 +77,8 @@ public class SongController {
 
     @PutMapping("{id}")
     public ResponseEntity<Song> edit (@RequestBody Song s, @PathVariable Long id) {
+
+
         return ResponseEntity.of(
                 songRepository.findById(id).map(m -> {
                     m.setTitle(s.getTitle());
