@@ -20,7 +20,7 @@ public class SongDtoConverter {
 
         result.setAlbum(s.getAlbum());
         result.setTitle(s.getTitle());
-        result.setArtist(s.getArtist().getNombre());
+        result.setArtist(s.getArtist().getName());
 
         return result;
     }

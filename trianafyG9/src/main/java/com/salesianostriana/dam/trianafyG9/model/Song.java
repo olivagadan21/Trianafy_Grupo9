@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Data @NoArgsConstructor
@@ -16,12 +17,14 @@ public class Song {
     private Long id;
 
     private String title;
+    @ManyToOne
     private Artist artist;
     private String album;
     private String year;
 
-
-
-
-
+    public Song(String title, String album, String year) {
+        this.title = title;
+        this.album = album;
+        this.year = year;
+    }
 }

@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.trianafyG9.controller;
 
+import com.salesianostriana.dam.trianafyG9.dto.CreateSongDto;
 import com.salesianostriana.dam.trianafyG9.dto.GetSongDto;
 import com.salesianostriana.dam.trianafyG9.dto.SongDtoConverter;
 import com.salesianostriana.dam.trianafyG9.model.Song;
@@ -47,9 +48,9 @@ public class SongController {
     }
 
     @PostMapping("{id}")
-    public ResponseEntity<Song> createSong (@RequestBody Song newSong) {
+    public ResponseEntity<Song> createSong (@RequestBody CreateSongDto newSong) {
 
-        Song nuevo = dtoConverter.createSongDtoToSong(nuevo);
+        Song nuevo = dtoConverter.createSongDtoToSong(newSong);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(songRepository.save(nuevo));
@@ -58,7 +59,7 @@ public class SongController {
     @PutMapping("{id}")
     public ResponseEntity<Song> edit (@RequestBody Song s, @PathVariable Long id) {
         return ResponseEntity.of(
-                songRepository.findById(id).map(s -> {
+                songRepository.findById(id).map(m -> {
                     s.setAlbum(s.getAlbum());
                     s.setArtist(s.getArtist());
                     s.setTitle(s.getTitle());
