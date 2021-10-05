@@ -1,17 +1,12 @@
 package com.salesianostriana.dam.trianafyG9.controller;
 
-import com.salesianostriana.dam.trianafyG9.dto.ArtistDtoConverter;
-import com.salesianostriana.dam.trianafyG9.dto.CreateArtistDto;
-import com.salesianostriana.dam.trianafyG9.dto.GetArtistDto;
 import com.salesianostriana.dam.trianafyG9.model.Artist;
 import com.salesianostriana.dam.trianafyG9.model.ArtistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,24 +14,13 @@ import java.util.stream.Collectors;
 public class ArtistController {
 
     private final ArtistRepository artistRepository;
-    private final ArtistDtoConverter dtoConverter;
 
     @GetMapping("")
-    public ResponseEntity<List<GetArtistDto>> findAll(){
+    public ResponseEntity<List<Artist>> findAll(){
 
-        List<Artist> data = artistRepository.findAll();
-
-        if (data.isEmpty()) {
-
-            return ResponseEntity.notFound().build();
-
-        } else {
-
-            List<GetArtistDto> result = data.stream().map(dtoConverter::artistToGetArtistDto).collect(Collectors.toList());
-
-            return ResponseEntity.ok().body(result);
-
-        }
+        return ResponseEntity
+                .ok()
+                .body(artistRepository.findAll());
 
     }
 
@@ -48,18 +32,12 @@ public class ArtistController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Artist> create(@RequestBody CreateArtistDto dto){
+    public ResponseEntity<Artist> create(@RequestBody Artist newArtist){
 
-        if (dto.getId() == null) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(artistRepository.save(newArtist));
 
-            return ResponseEntity.badRequest().build();
-
-        }
-
-        Artist nuevo = dtoConverter.createArtistDtoToArtist(dto);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(artistRepository.save(nuevo));
-        
     }
 
     @PutMapping("/{id}")
