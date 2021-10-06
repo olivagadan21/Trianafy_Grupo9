@@ -103,8 +103,14 @@ public class PlaylistController {
 
     }
 
+    @GetMapping("/{idPlaylist}/songs")
+    public ResponseEntity<Playlist> findAllPlaySong(@PathVariable Long idPlaylist){
 
+        return ResponseEntity.of(playlistRepository.findById(idPlaylist));
 
+    }
 
 
 }
+
+
