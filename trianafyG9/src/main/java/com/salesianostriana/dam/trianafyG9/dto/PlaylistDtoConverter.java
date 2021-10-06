@@ -24,6 +24,7 @@ public class PlaylistDtoConverter {
                 .id(p.getId())
                 .name(p.getName())
                 .description(p.getDescription())
+                .numberSongs(p.getSongs().size())
                 .build();
 
     }

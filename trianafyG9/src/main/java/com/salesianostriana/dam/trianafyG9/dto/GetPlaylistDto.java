@@ -15,6 +15,7 @@ public class GetPlaylistDto {
     private Long id;
     private String name;
     private String description;
+    private int numberSongs;
 
 
 }

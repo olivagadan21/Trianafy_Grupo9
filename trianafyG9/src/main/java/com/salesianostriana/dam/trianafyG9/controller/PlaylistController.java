@@ -50,6 +50,9 @@ public class PlaylistController {
     @PostMapping("")
     public ResponseEntity<Playlist> create(@RequestBody CreatePlaylistDto dto){
 
+        if (dto.getName().isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
 
 
         Playlist nuevo = dtoConverter.createPlaylistDtoToPlaylist(dto);
