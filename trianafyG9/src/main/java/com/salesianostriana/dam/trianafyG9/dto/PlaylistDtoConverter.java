@@ -1,7 +1,10 @@
 package com.salesianostriana.dam.trianafyG9.dto;
 
 import com.salesianostriana.dam.trianafyG9.model.Playlist;
+import com.salesianostriana.dam.trianafyG9.model.Song;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class PlaylistDtoConverter {
@@ -17,8 +20,9 @@ public class PlaylistDtoConverter {
     public GetPlaylistDto playlistToGetPlaylistDto(Playlist p){
 
         return GetPlaylistDto
-                .builder().
-                name(p.getName())
+                .builder()
+                .id(p.getId())
+                .name(p.getName())
                 .description(p.getDescription())
                 .build();
 

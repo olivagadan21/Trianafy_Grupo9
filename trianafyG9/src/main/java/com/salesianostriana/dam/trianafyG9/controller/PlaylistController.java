@@ -8,6 +8,7 @@ import com.salesianostriana.dam.trianafyG9.model.PlaylistRepository;
 import com.salesianostriana.dam.trianafyG9.model.Song;
 import com.salesianostriana.dam.trianafyG9.model.SongRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class PlaylistController {
 
 
     //Listar todos
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<GetPlaylistDto>> findAll(){
         List<Playlist> data = playlistRepository.findAll();
 
@@ -46,20 +47,15 @@ public class PlaylistController {
     }
 
     //Crear nueva playlist
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Playlist> create(@RequestBody CreatePlaylistDto dto){
 
-        if (dto.getSongId() == null){
-            return ResponseEntity.badRequest().build();
-        }
+
 
         Playlist nuevo = dtoConverter.createPlaylistDtoToPlaylist(dto);
 
-        List<Song> song = songRepository.findById(dto.getSongId()).orElse(null);
 
-        nuevo.setSongs(song);
-
-        return ResponseEntity.status(201).body(playlistRepository.save(nuevo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(playlistRepository.save(nuevo));
     }
 
     //Modificar Playlist
@@ -83,6 +79,8 @@ public class PlaylistController {
         return ResponseEntity.noContent().build();
 
     }
+
+
 
 
 

@@ -9,8 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreatePlaylistDto {
 
+
     private String name;
     private String description;
-    private Long songId;
+
+
 
 }
