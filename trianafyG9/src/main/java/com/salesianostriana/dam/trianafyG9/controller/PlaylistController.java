@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/lists")
@@ -87,6 +89,7 @@ public class PlaylistController {
     public ResponseEntity<Playlist> newPlaySong(@RequestBody Playlist playlist, @PathVariable Long idPlaylist,
                                                 @PathVariable Long idSong) {
 
+
         if ((playlistRepository.findById(idPlaylist) == null) || (songRepository.findById(idSong) == null)){
             return ResponseEntity.badRequest().build();
         }else {
@@ -109,6 +112,35 @@ public class PlaylistController {
         return ResponseEntity.of(playlistRepository.findById(idPlaylist));
 
     }
+
+    @GetMapping("/{idPlaylist}/song/{idSong}")
+    public ResponseEntity<Stream<Song>> findSongOfPlayList(@PathVariable Long idPlaylist, @PathVariable Long idSong){
+        return ResponseEntity.of(playlistRepository.findById(idPlaylist)
+                .map(m -> (m.getSongs()
+                        .stream().filter(song -> song.getId().equals(idSong)))
+                ));
+
+    }
+
+    @DeleteMapping("/{idPlaylist}/song/{idSong}")
+    public ResponseEntity<Stream<Song>> deleteSongOfPlayList(@PathVariable Long idPlaylist, @PathVariable Long idSong){
+
+        playlistRepository.findById(idPlaylist)
+                .map(m -> (m.getSongs()
+                        .stream().filter(song -> song.getId().equals(idSong))
+                        )
+                );
+
+
+        return ResponseEntity.noContent().build();
+
+    }
+
+
+
+
+
+       
 
 
 }
