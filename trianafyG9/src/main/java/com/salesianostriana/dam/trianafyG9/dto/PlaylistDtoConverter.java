@@ -20,10 +20,10 @@ public class PlaylistDtoConverter {
     public GetPlaylistDto playlistToGetPlaylistDto(Playlist p){
 
         return GetPlaylistDto
-                .builder().
-                name(p.getName())
+                .builder()
+                .id(p.getId())
+                .name(p.getName())
                 .description(p.getDescription())
-                .song(p.getSongs().stream().map(Song::getTitle).collect(Collectors.toList()))
                 .build();
 
     }
