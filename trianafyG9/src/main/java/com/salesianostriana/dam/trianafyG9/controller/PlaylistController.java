@@ -89,6 +89,7 @@ public class PlaylistController {
     public ResponseEntity<Playlist> newPlaySong(@RequestBody Playlist playlist, @PathVariable Long idPlaylist,
                                                 @PathVariable Long idSong) {
 
+
         if ((playlistRepository.findById(idPlaylist) == null) || (songRepository.findById(idSong) == null)){
             return ResponseEntity.badRequest().build();
         }else {
@@ -139,6 +140,9 @@ public class PlaylistController {
 
 
 
+       
 
 
 }
+
+
