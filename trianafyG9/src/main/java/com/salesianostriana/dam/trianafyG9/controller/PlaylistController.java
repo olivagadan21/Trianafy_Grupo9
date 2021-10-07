@@ -132,6 +132,16 @@ public class PlaylistController {
 
     }
 
+    @Operation(summary = "Añade una canción a una playlist ambas ya existentes en base a sus ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha añadido la canción a la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha añadido la canción a la playlist",
+                    content = @Content),
+    })
     @PostMapping("/{idPlaylist}/songs/{idSong}")
     public ResponseEntity<Playlist> newPlaySong(@RequestBody Playlist playlist, @PathVariable Long idPlaylist,
                                                 @PathVariable Long idSong) {
@@ -153,6 +163,16 @@ public class PlaylistController {
 
     }
 
+    @Operation(summary = "Muestra todas las canciones de una playlist en específico")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han mostrado todas las canciones de la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se han mostrado todas las canciones de la playlist",
+                    content = @Content),
+    })
     @GetMapping("/{idPlaylist}/songs")
     public ResponseEntity<Playlist> findAllPlaySong(@PathVariable Long idPlaylist){
 
@@ -160,6 +180,16 @@ public class PlaylistController {
 
     }
 
+    @Operation(summary = "Obtiene una canción de una playlist en base a sus ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la canción de la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha encontrado la canción de la playlist",
+                    content = @Content),
+    })
     @GetMapping("/{idPlaylist}/song/{idSong}")
     public ResponseEntity<Stream<Song>> findSongOfPlayList(@PathVariable Long idPlaylist, @PathVariable Long idSong){
         return ResponseEntity.of(playlistRepository.findById(idPlaylist)
@@ -169,6 +199,16 @@ public class PlaylistController {
 
     }
 
+    @Operation(summary = "Borra una canción de una playlist en base a sus ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha borrado la canción de la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha borrado la canción de la playlist",
+                    content = @Content),
+    })
     @DeleteMapping("/{idPlaylist}/song/{idSong}")
     public ResponseEntity<Stream<Song>> deleteSongOfPlayList(@PathVariable Long idPlaylist, @PathVariable Long idSong){
 

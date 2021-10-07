@@ -8,6 +8,11 @@ import com.salesianostriana.dam.trianafyG9.model.Artist;
 import com.salesianostriana.dam.trianafyG9.model.ArtistRepository;
 import com.salesianostriana.dam.trianafyG9.model.Song;
 import com.salesianostriana.dam.trianafyG9.model.SongRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +32,16 @@ public class SongController {
     private final SongDtoConverter dtoConverter;
     private final ArtistRepository artistRepository;
 
+    @Operation(summary = "Muestra una lista de todas las canciones")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han encontrado los artistas",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se han encontrado los artistas",
+                    content = @Content),
+    })
     @GetMapping("")
     public ResponseEntity<List<GetSongDto>> findAll() {
 
@@ -44,6 +59,16 @@ public class SongController {
         }
     }
 
+    @Operation(summary = "Obtiene una canción en base a su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la canción",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha encontrado la canción",
+                    content = @Content),
+    })
     @GetMapping("{id}")
     public ResponseEntity<Song> findOneSong (@PathVariable Long id) {
         Optional<Song> data = songRepository.findById(id);
@@ -58,6 +83,16 @@ public class SongController {
 
     }
 
+    @Operation(summary = "Crea una nueva canción")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha creado la nueva canción",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha creado la nueva canción",
+                    content = @Content),
+    })
     @PostMapping("")
     public ResponseEntity<Song> createSong (@RequestBody CreateSongDto newSong) {
 
@@ -77,6 +112,16 @@ public class SongController {
                 .body(songRepository.save(nuevo));
     }
 
+    @Operation(summary = "Edita una canción anteriormente creada, buscando por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha editado la canción",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha editado la canción",
+                    content = @Content),
+    })
     @PutMapping("{id}")
     public ResponseEntity<Song> edit (@RequestBody PutSongDto s, @PathVariable Long id) {
 
@@ -103,6 +148,16 @@ public class SongController {
         }
     }
 
+    @Operation(summary = "Borra una canción en base a su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha borrado la canción",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha borrado la canción",
+                    content = @Content),
+    })
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteSong(@PathVariable Long id) {
         songRepository.deleteById(id);
