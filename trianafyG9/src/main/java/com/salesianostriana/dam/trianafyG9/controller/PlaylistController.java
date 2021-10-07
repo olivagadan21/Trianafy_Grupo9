@@ -3,31 +3,42 @@ package com.salesianostriana.dam.trianafyG9.controller;
 import com.salesianostriana.dam.trianafyG9.dto.CreatePlaylistDto;
 import com.salesianostriana.dam.trianafyG9.dto.GetPlaylistDto;
 import com.salesianostriana.dam.trianafyG9.dto.PlaylistDtoConverter;
-import com.salesianostriana.dam.trianafyG9.model.Playlist;
-import com.salesianostriana.dam.trianafyG9.model.PlaylistRepository;
-import com.salesianostriana.dam.trianafyG9.model.Song;
-import com.salesianostriana.dam.trianafyG9.model.SongRepository;
+import com.salesianostriana.dam.trianafyG9.model.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/lists")
 @RequiredArgsConstructor
+@Tag(name = "Playlist", description = "Es la clase controlador de Playlist")
 public class PlaylistController {
 
     private final PlaylistRepository playlistRepository;
     private final SongRepository songRepository;
     private final PlaylistDtoConverter dtoConverter;
 
-
-    //Listar todos
+    @Operation(summary = "Muestra una lista de todos los artistas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha encontrado la playlist",
+                    content = @Content),
+    })
     @GetMapping("")
     public ResponseEntity<List<GetPlaylistDto>> findAll(){
         List<Playlist> data = playlistRepository.findAll();
@@ -41,14 +52,32 @@ public class PlaylistController {
 
     }
 
-    //Listar uno solo por id
+    @Operation(summary = "Obtiene una lista en base a su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado a la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha encontrado a la playlist",
+                    content = @Content),
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Playlist> findOne(@PathVariable("id") Long id){
 
         return ResponseEntity.of(playlistRepository.findById(id));
     }
 
-    //Crear nueva playlist
+    @Operation(summary = "Crea una nueva playlist")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha creado la nueva playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha creado la nueva playlist",
+                    content = @Content),
+    })
     @PostMapping("")
     public ResponseEntity<Playlist> create(@RequestBody CreatePlaylistDto dto){
 
@@ -63,20 +92,38 @@ public class PlaylistController {
         return ResponseEntity.status(HttpStatus.CREATED).body(playlistRepository.save(nuevo));
     }
 
-    //Modificar Playlist
+    @Operation(summary = "Edita una playlist anteriormente creada, buscando por su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha editado la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha editado la playlist",
+                    content = @Content),
+    })
     @PutMapping("/{id}")
     public  ResponseEntity<Playlist> edit(@RequestBody Playlist playlist, @PathVariable Long id){
         return ResponseEntity.of(
                 playlistRepository.findById(id).map(list -> {
-                  list.setName(playlist.getName());
-                  list.setDescription(playlist.getDescription());
-                  playlistRepository.save(list);
-                  return list;
+                    list.setName(playlist.getName());
+                    list.setDescription(playlist.getDescription());
+                    playlistRepository.save(list);
+                    return list;
                 })
         );
     }
 
-    //Borrar una Playlist
+    @Operation(summary = "Borra una playlist en base a su ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha borrado la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha borrado la playlist",
+                    content = @Content),
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
 
@@ -85,6 +132,16 @@ public class PlaylistController {
 
     }
 
+    @Operation(summary = "Añade una canción a una playlist ambas ya existentes en base a sus ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha añadido la canción a la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha añadido la canción a la playlist",
+                    content = @Content),
+    })
     @PostMapping("/{idPlaylist}/songs/{idSong}")
     public ResponseEntity<Playlist> newPlaySong(@RequestBody Playlist playlist, @PathVariable Long idPlaylist,
                                                 @PathVariable Long idSong) {
@@ -106,6 +163,16 @@ public class PlaylistController {
 
     }
 
+    @Operation(summary = "Muestra todas las canciones de una playlist en específico")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se han mostrado todas las canciones de la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se han mostrado todas las canciones de la playlist",
+                    content = @Content),
+    })
     @GetMapping("/{idPlaylist}/songs")
     public ResponseEntity<Playlist> findAllPlaySong(@PathVariable Long idPlaylist){
 
@@ -113,6 +180,16 @@ public class PlaylistController {
 
     }
 
+    @Operation(summary = "Obtiene una canción de una playlist en base a sus ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la canción de la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha encontrado la canción de la playlist",
+                    content = @Content),
+    })
     @GetMapping("/{idPlaylist}/song/{idSong}")
     public ResponseEntity<Stream<Song>> findSongOfPlayList(@PathVariable Long idPlaylist, @PathVariable Long idSong){
         return ResponseEntity.of(playlistRepository.findById(idPlaylist)
@@ -122,6 +199,16 @@ public class PlaylistController {
 
     }
 
+    @Operation(summary = "Borra una canción de una playlist en base a sus ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha borrado la canción de la playlist",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400",
+                    description = "No se ha borrado la canción de la playlist",
+                    content = @Content),
+    })
     @DeleteMapping("/{idPlaylist}/song/{idSong}")
     public ResponseEntity<Stream<Song>> deleteSongOfPlayList(@PathVariable Long idPlaylist, @PathVariable Long idSong){
 
