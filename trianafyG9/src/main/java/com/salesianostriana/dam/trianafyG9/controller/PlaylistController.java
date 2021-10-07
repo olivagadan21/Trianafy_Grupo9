@@ -209,18 +209,23 @@ public class PlaylistController {
                     description = "No se ha borrado la canción de la playlist",
                     content = @Content),
     })
-    @DeleteMapping("/{idPlaylist}/song/{idSong}")
-    public ResponseEntity<Stream<Song>> deleteSongOfPlayList(@PathVariable Long idPlaylist, @PathVariable Long idSong){
+    @DeleteMapping("/{idPlaylist}/songs/{idSong}")
+    public ResponseEntity<?> deleteSongOfPlayList (@PathVariable Long idPlaylist,
+                                                   @PathVariable Long idSong) {
 
-        playlistRepository.findById(idPlaylist)
-                .map(m -> (m.getSongs()
-                        .stream().filter(song -> song.getId().equals(idSong))
-                        )
-                );
+        if(playlistRepository.findById(idPlaylist).isEmpty() ||
+                !playlistRepository.findById(idPlaylist).get().getSongs().contains(songRepository.getById(idSong))) {
+            return ResponseEntity.notFound().build();
+        }else {
 
+            Playlist playlist1 = playlistRepository.findById(idPlaylist).orElse(null);
 
-        return ResponseEntity.noContent().build();
-
+            Song song1 = songRepository.findById(idSong).orElse(null);
+            playlist1.getSongs().remove(song1);
+            return ResponseEntity
+                    .status(204)
+                    .body(playlistRepository.save(playlist1));
+        }
     }
 
 
