@@ -2,6 +2,7 @@ package com.salesianostriana.dam.trianafyG9.controller;
 
 import com.salesianostriana.dam.trianafyG9.dto.CreateSongDto;
 import com.salesianostriana.dam.trianafyG9.dto.GetSongDto;
+import com.salesianostriana.dam.trianafyG9.dto.PutSongDto;
 import com.salesianostriana.dam.trianafyG9.dto.SongDtoConverter;
 import com.salesianostriana.dam.trianafyG9.model.Artist;
 import com.salesianostriana.dam.trianafyG9.model.ArtistRepository;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -76,21 +78,30 @@ public class SongController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Song> edit (@RequestBody Song s, @PathVariable Long id) {
+    public ResponseEntity<Song> edit (@RequestBody PutSongDto s, @PathVariable Long id) {
 
+        List<Song> data = songRepository.findAll();
 
-        return ResponseEntity.of(
-                songRepository.findById(id).map(m -> {
-                    m.setTitle(s.getTitle());
-                    m.setAlbum(s.getAlbum());
-                    m.setYear(s.getYear());
-                    songRepository.save(m);
-                    return m;
-                })
-        );
+        if (data.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
 
+            Song song = dtoConverter.editSongDtoToSong(s);
+            Artist artist = artistRepository.findById(s.getArtist()).orElse(null);
+            song.setArtist(artist);
+            return ResponseEntity.of(
+                    songRepository.findById(id).map(m -> {
+                        m.setTitle(s.getTitle());
+                        m.setAlbum(s.getAlbum());
+                        m.setYear(s.getYear());
+                        m.setArtist(artist);
+                        songRepository.save(m);
+                        return m;
+                    })
+            );
 
         }
+    }
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteSong(@PathVariable Long id) {
