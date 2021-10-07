@@ -1,19 +1,18 @@
 package com.salesianostriana.dam.trianafyG9.dto;
 
+import com.salesianostriana.dam.trianafyG9.model.Artist;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor @AllArgsConstructor
-@Builder
-public class GetSongDto {
+@AllArgsConstructor
+@NoArgsConstructor
 
-    private Long id;
+public class PutSongDto {
+
     private String title;
     private String album;
     private String year;
-    private String artist;
-
+    private Long artist;
 }
