@@ -15,14 +15,26 @@ public class SongDtoConverter {
         );
     }
 
+    public Song editSongDtoToSong (PutSongDto s) {
+        return new Song(
+
+                s.getTitle(),
+                s.getAlbum(),
+                s.getYear()
+        );
+    }
+
     public GetSongDto songToGetSongDto (Song s) {
 
-        GetSongDto result = new GetSongDto();
-        result.setTitle(s.getTitle());
-        result.setAlbum(s.getAlbum());
-        result.setYear(s.getYear());
-        result.setArtist(s.getArtist().getName());
+        return GetSongDto
+                .builder()
+                .id(s.getId())
+                .title(s.getTitle())
+                .album(s.getAlbum())
+                .year(s.getYear())
+                .artist(s.getArtist().getName())
+                .build();
 
-        return result;
+
     }
 }
