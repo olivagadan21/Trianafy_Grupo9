@@ -24,7 +24,6 @@ public class Playlist {
     private String description;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @ElementCollection
     private List<Song> songs;
 
     public Playlist(String name, String description) {

@@ -1,0 +1,454 @@
+{
+	"info": {
+		"_postman_id": "a21a7eb7-82e0-427e-bd57-98b3890ef1e8",
+		"name": "TRIANAFY Grupo 9",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Artist",
+			"item": [
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"J Balvin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/artist",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"artist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/artist",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"artist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET(id)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/artist/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"artist",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Arcangel\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/artist/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"artist",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/artist/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"artist",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Songs",
+			"item": [
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Morado\",\r\n    \"album\":\"Colores\",\r\n    \"year\":\"2020\",\r\n    \"artistId\":1\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/songs",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"songs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/songs",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"songs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET(id)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/songs/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"songs",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"title\": \"Verde\",\r\n    \"artist\": 1,\r\n    \"album\": \"Colores\",\r\n    \"year\": \"2020\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/songs/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"songs",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/songs/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"songs",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Playlist",
+			"item": [
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"favoritos\",\r\n    \"description\": \"canciones favoritas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/lists",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/lists",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET(id)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/lists/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lists",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"name\": \"Me gusta\",\r\n    \"description\": \"canciones favoritas\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/lists/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lists",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/lists/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lists",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PlaylistSong",
+			"item": [
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"favoritos\",\r\n    \"description\": \"canciones favoritas\",\r\n    \"songs\": [\r\n           { \"title\":\"Morado\",\r\n             \"artistId\":1\r\n           }\r\n    ]\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/lists/3/songs/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lists",
+								"3",
+								"songs",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/lists/3/songs",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lists",
+								"3",
+								"songs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET(id)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/lists/3/song/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lists",
+								"3",
+								"song",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/lists/3/songs/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"lists",
+								"3",
+								"songs",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

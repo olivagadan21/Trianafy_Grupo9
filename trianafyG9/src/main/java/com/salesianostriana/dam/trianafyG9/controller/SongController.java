@@ -4,10 +4,7 @@ import com.salesianostriana.dam.trianafyG9.dto.CreateSongDto;
 import com.salesianostriana.dam.trianafyG9.dto.GetSongDto;
 import com.salesianostriana.dam.trianafyG9.dto.PutSongDto;
 import com.salesianostriana.dam.trianafyG9.dto.SongDtoConverter;
-import com.salesianostriana.dam.trianafyG9.model.Artist;
-import com.salesianostriana.dam.trianafyG9.model.ArtistRepository;
-import com.salesianostriana.dam.trianafyG9.model.Song;
-import com.salesianostriana.dam.trianafyG9.model.SongRepository;
+import com.salesianostriana.dam.trianafyG9.model.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,6 +28,7 @@ public class SongController {
     private final SongRepository songRepository;
     private final SongDtoConverter dtoConverter;
     private final ArtistRepository artistRepository;
+    private final PlaylistRepository playlistRepository;
 
     @Operation(summary = "Muestra una lista de todas las canciones")
     @ApiResponses(value = {
@@ -160,8 +158,21 @@ public class SongController {
     })
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteSong(@PathVariable Long id) {
-        songRepository.deleteById(id);
+
+        Optional<Song> song = songRepository.findById(id);
+        if (song.isPresent()) {
+
+
+            List<Playlist> playlists = playlistRepository.listasConCancion(songRepository.getById(id));
+            for (Playlist playlist : playlists) {
+                playlist.getSongs().remove(song.get());
+                playlistRepository.save(playlist);
+            }
+            songRepository.deleteById(id);
+        }
+
         return ResponseEntity.noContent().build();
+
     }
 
 

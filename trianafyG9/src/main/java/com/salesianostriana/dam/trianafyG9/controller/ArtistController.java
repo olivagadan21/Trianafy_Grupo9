@@ -147,14 +147,12 @@ public class ArtistController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
-
-        if (id == null) {
-            return ResponseEntity.notFound().build();
-        }else{
+        List <Song> listSong = songRepository.findAll();
+        for(Song song : listSong){
+            if (id == song.getArtist().getId())
+            song.setArtist(null);}
             artistRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-
+        return ResponseEntity.noContent().build();
     }
 
 
