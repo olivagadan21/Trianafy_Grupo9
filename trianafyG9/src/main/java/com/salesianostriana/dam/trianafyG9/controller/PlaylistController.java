@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -210,16 +211,26 @@ public class PlaylistController {
                     content = @Content),
     })
     @DeleteMapping("/{idPlaylist}/song/{idSong}")
-    public ResponseEntity<Stream<Song>> deleteSongOfPlayList(@PathVariable Long idPlaylist, @PathVariable Long idSong){
+    public ResponseEntity<Playlist> deleteSongOfPlayList(@PathVariable Long idPlaylist, @PathVariable Long idSong){
 
-        playlistRepository.findById(idPlaylist)
-                .map(m -> (m.getSongs()
-                        .stream().filter(song -> song.getId().equals(idSong))
-                        )
-                );
+        Optional<Playlist> lista = playlistRepository.findById(idPlaylist);
+
+        if (playlistRepository.findById(idPlaylist).isEmpty() ||
+            !playlistRepository.findById(idPlaylist).get().getSongs().contains(songRepository.getById(idSong))){
+
+            return ResponseEntity.notFound().build();
+
+        }else {
+
+            lista.get().getSongs().remove(songRepository.findById(idSong).get());
+
+            playlistRepository.save(lista.get());
+
+            return ResponseEntity.noContent().build();
+        }
 
 
-        return ResponseEntity.noContent().build();
+
 
     }
 
