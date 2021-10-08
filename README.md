@@ -1,4 +1,4 @@
-# Trianafy_Grupo9
+# Trianafy
 
 #### Repositorio del proyecto **TRYANAFY** del módulo de Acso a Datos y Programación de Servicios y Procesos 2021-22. ####
 
